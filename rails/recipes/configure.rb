@@ -11,13 +11,20 @@ node[:deploy].each do |application, deploy|
 
   deploy = node[:deploy][application]
   
+  deploy_variables = {
+    :db_host      => node[:opsworks][:layers][:lb][:instances].first[:private_ip]
+    :db_username  => node[:opsworks][:stack][:name]
+    :db_password  => node[:postgresql][:password]
+    :environment  => deploy[:rails_env]
+  }
+
   template "#{deploy[:deploy_to]}/shared/config/database.yml" do
     source "database.yml.erb"
     cookbook 'rails'
     mode "0660"
     group deploy[:group]
     owner deploy[:user]
-    variables(:node => node, :environment => deploy[:rails_env])
+    variables(deploy_variables)
 
     notifies :run, "execute[restart Rails app #{application}]"
 

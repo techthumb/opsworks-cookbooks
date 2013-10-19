@@ -1,0 +1,5 @@
+maintainer        'MYOB'
+description       'Configures Rails database.yml to talk to PostgreSQL'
+version           '0.1'
+recipe            'rails::configure', 'Configures Rails database.yml to talk to PostgreSQL'
+supports          'ubuntu'

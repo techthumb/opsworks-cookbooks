@@ -29,8 +29,8 @@ service "postgresql" do
   action :start
 end
 
-db_name     = node[:opsworks][:name]
-db_username = node[:opsworks][:name]
+db_name     = node[:opsworks][:stack][:name]
+db_username = node[:opsworks][:stack][:name]
 db_password = node[:postgresql][:password]
 
 execute "createdb #{db_name}" do

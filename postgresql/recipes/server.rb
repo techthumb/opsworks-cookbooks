@@ -1,7 +1,5 @@
 pg_data_directory = '/data' 
 
-return if FileTest.directory?(pg_data_directory) && Dir.new(pg_data_directory).entries.size > 2
-
 file '/etc/apt/sources.list.d/pgdg.list' do
   content 'deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main'
 end
@@ -29,4 +27,20 @@ execute %q(echo "listen_addresses='*'" >> /etc/postgresql/9.3/main/postgresql.co
 
 service "postgresql" do
   action :start
+end
+
+db_name     = node[:opsworks][:name]
+db_username = node[:opsworks][:name]
+db_password = node[:postgresql][:password]
+
+execute "createdb #{db_name}" do
+  user 'postgres'
+end
+
+execute %Q(psql -c "CREATE USER #{db_username} WITH PASSWORD '#{db_password}'") do
+  user 'postgres'
+end
+
+execute %Q(psql -c 'GRANT ALL PRIVILEGES ON DATABASE #{db_name} to #{db_username}') do
+  user 'postgres'
 end

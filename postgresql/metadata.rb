@@ -1,5 +1,5 @@
 maintainer        'MYOB'
 description       'Installs and configures PostgreSQL'
 version           '0.1'
-recipe            'postgresql', 'Installs PostgreSQL'
+recipe            'postgresql::server', 'Installs PostgreSQL'
 supports          'ubuntu'

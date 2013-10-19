@@ -12,9 +12,9 @@ node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
   
   deploy_variables = {
-    :db_host      => node[:opsworks][:layers][:lb][:instances].first[:private_ip]
-    :db_username  => node[:opsworks][:stack][:name]
-    :db_password  => node[:postgresql][:password]
+    :db_host      => node[:opsworks][:layers][:lb][:instances].first[:private_ip],
+    :db_username  => node[:opsworks][:stack][:name],
+    :db_password  => node[:postgresql][:password],
     :environment  => deploy[:rails_env]
   }
 

@@ -12,11 +12,15 @@ node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
   
   deploy_variables = {
-    :db_host      => node[:opsworks][:layers][:postgres][:instances].first[1][:private_ip]
+    :db_host      => node[:opsworks][:layers][:postgres][:instances].first[1][:private_ip],
     :db_username  => node[:opsworks][:stack][:name],
     :db_password  => node[:postgresql][:password],
     :environment  => deploy[:rails_env]
   }
+
+  puts '#' * 50
+  puts deploy_variables
+  puts '#' * 50
 
   template "#{deploy[:deploy_to]}/shared/config/database.yml" do
     source "database.yml.erb"
